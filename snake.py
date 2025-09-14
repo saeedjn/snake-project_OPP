@@ -13,7 +13,7 @@ class Snake:
     def get_head(self):
         return self.body[0]
 
-    def sert_direction(self,new_dir):
+    def set_direction(self,new_dir):
         opposite = (-self.direction[0],-self.direction[1])
         if new_dir != opposite:
             self.direction = new_dir
