@@ -4,6 +4,7 @@ from color import BLACK, RED
 from snake import Snake
 from walls import Walls
 from food import Food
+from scoreManager import ScoreManager
 
 class Game:
     def __init__(self):
@@ -34,6 +35,9 @@ class Game:
 
         self.food = Food(self.cols, self.rows,self.cell_size,self.snake.body,self.walls.get_walls())
 
+        self.score = ScoreManager()
+
+
     def run(self):
         while self.running:
             self.handle_events()
@@ -43,6 +47,7 @@ class Game:
 
     def handle_events(self):
         for event in pygame.event.get():
+            pygame.time.wait(1)
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN :
@@ -62,15 +67,15 @@ class Game:
             self.running = False
 
         if self.snake.get_head() == self.food.position:
+            self.score.add_score()
             self.snake.grow()
-
             self.food.snake_body = self.snake.body
             self.food.generate_new_food()
 
 
     def draw(self):
+        font = pygame.font.SysFont("Arial", 20)
         if self.paused:
-            font = pygame.font.SysFont("Arial", 20)
             text = font.render("PAUSE", True, RED)
             rect = text.get_rect()
             rect.center = self.screen.get_width()//2, self.screen.get_height()//2
@@ -80,4 +85,5 @@ class Game:
         self.walls.draw(self.screen)
         self.snake.draw(self.screen,self.cell_size)
         self.food.draw(self.screen)
+        self.score.draw(self.screen,font)
         pygame.display.update()
