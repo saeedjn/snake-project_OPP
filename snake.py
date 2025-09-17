@@ -56,7 +56,7 @@ class Snake:
             all_cells = []
             if len(walls) > 0 and isinstance(walls[0], (list, tuple)):
                 for wall in walls:
-                    all_cells.extend(wall)
+                    all_cells.append(wall)
             else:
                 all_cells = list(walls)
 

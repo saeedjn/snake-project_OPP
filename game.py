@@ -31,7 +31,7 @@ class Game:
 
         self.snake = Snake(start_pos=(10,10))
 
-        self.walls = Walls(self.cols,self.rows,True,True,5)
+        self.walls = Walls(self.cols,self.rows,self.cell_size,True,5)
 
         self.food = Food(self.cols, self.rows,self.cell_size,self.snake.body,self.walls.get_walls())
 
@@ -62,9 +62,9 @@ class Game:
             return
 
         self.snake.move()
-
-        if self.snake.check_collision(self.cols,self.rows,self.walls.get_walls(),tunnel=False):
+        if self.snake.check_collision(self.cols,self.rows,self.walls.get_walls(),tunnel=True):
             self.running = False
+
 
         if self.snake.get_head() == self.food.position:
             self.score.add_score()
@@ -84,6 +84,7 @@ class Game:
         self.screen.fill(BLACK)
         self.walls.draw(self.screen)
         self.snake.draw(self.screen,self.cell_size)
-        self.food.draw(self.screen)
         self.score.draw(self.screen,font)
+        self.food.draw(self.screen)
+
         pygame.display.update()
